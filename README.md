@@ -1,8 +1,16 @@
 /*-----------------------------------------------------------------------------------------*/
 /*---------------------	Food Blogging Project - ReadMe File -------------------------------*/
 /*-----------------------------------------------------------------------------------------*/
+/*--- Repository URL: https://github.com/saikat-ghosh/FoodBlogging-Backend-api.git --------*/
+/*-----------------------------------------------------------------------------------------*/
+/*------------------------------- Instructions to run : -----------------------------------*/
+/* 1.	Clone repository from above URL													   */
+/* 2.	Go to cloned folder and run the command "npm install"							   */
+/* 3.	Install nodemon package globally and run command "nodemon" from folder root	       */
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
 /*-------------------------- First Commit ----- 12/11/2020 --------------------------------*/
-/* 								Saikat G 												   */
+/* 										Saikat G 										   */
 /*-----------------------------------------------------------------------------------------*/
 /* 1. Post api added : GET/POST/UPDATE/DELETE routes added -> test it using Postman -> URL: http://localhost:3000/api/posts?page=1
 /*    Use below sample data for POST query -> select RAW option and change TEXT  to JSON
