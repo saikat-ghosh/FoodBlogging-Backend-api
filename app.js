@@ -1,0 +1,53 @@
+/* import third-party libraries */
+const express = require('express');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+/* import Models */
+const Post = require('./models/post');
+const Cuisine = require('./models/cuisine');
+
+/* import Routes */
+const postRoutes = require('./routes/postRoutes');
+const cuisineRoutes = require('./routes/cuisineRoutes');
+
+/* use below MongoDB Atlas connection string to connect to Cloud Database */
+const dbURI='mongodb+srv://testuser:testuser@skt.wbcfc.mongodb.net/foodblog?retryWrites=true&w=majority'
+
+/*------------ create the Express app instance ------------*/
+const app=express();
+/*---------------------------------------------------------*/
+
+/* connect to Atlas Database */
+mongoose.connect(dbURI, { useNewUrlParser: true,useUnifiedTopology:true})
+	.then((success)=>{ console.log('Successfully connected to Atlas MongoDB...')})
+	.catch((err)=>{ console.log('Error in connecting Atlas MongoDB...'+ err)});
+
+/* start the app server on port 3000 */
+app.listen(3000);
+console.log('listening requests on Port 3000');
+
+/* make the public folder accessible to contain external files */
+app.use(express.static('public'));
+
+/* pass form data to the request object */
+app.use(bodyParser.json());
+app.use(express.urlencoded({extended:true}));
+
+/* Log details for each incoming request using 3rd party package 'Morgan' */
+app.use(morgan('dev'));
+
+/* introduce Route middlewares to handle route requests */
+app.use("/api/posts",postRoutes);
+app.use("/api/cuisines",cuisineRoutes);					//added for testing purpose, might not be required later
+
+/* index route -> redirects to posts for now, later will return the login/signup page */
+app.get("/",(req,res)=>{
+	res.redirect("api/posts");
+});
+
+/* default request handler for invalid routes/url */
+app.use((req,res)=>{
+	res.status(404).json({data:null,err:'404 - Page Not Found'});
+});
