@@ -11,6 +11,7 @@ const Cuisine = require('./models/cuisine');
 /* import Routes */
 const postRoutes = require('./routes/postRoutes');
 const cuisineRoutes = require('./routes/cuisineRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 /* use below MongoDB Atlas connection string to connect to Cloud Database */
 const dbURI='mongodb+srv://testuser:testuser@skt.wbcfc.mongodb.net/foodblog?retryWrites=true&w=majority'
@@ -21,12 +22,13 @@ const app=express();
 
 /* connect to Atlas Database */
 mongoose.connect(dbURI, { useNewUrlParser: true,useUnifiedTopology:true})
-	.then((success)=>{ console.log('Successfully connected to Atlas MongoDB...')})
+	.then((success)=>{ 
+		console.log('Successfully connected to Atlas MongoDB...');
+		/* start the app server on port 3000 */
+		app.listen(3000);
+		console.log('listening requests on Port 3000');
+	})
 	.catch((err)=>{ console.log('Error in connecting Atlas MongoDB...'+ err)});
-
-/* start the app server on port 3000 */
-app.listen(3000);
-console.log('listening requests on Port 3000');
 
 /* make the public folder accessible to contain external files */
 app.use(express.static('public'));
@@ -35,12 +37,13 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended:true}));
 
-/* Log details for each incoming request using 3rd party package 'Morgan' */
+/* log details for each incoming request using 3rd party package 'Morgan' */
 app.use(morgan('dev'));
 
 /* introduce Route middlewares to handle route requests */
 app.use("/api/posts",postRoutes);
 app.use("/api/cuisines",cuisineRoutes);					//added for testing purpose, might not be required later
+app.use("/api/users",userRoutes);
 
 /* index route -> redirects to posts for now, later will return the login/signup page */
 app.get("/",(req,res)=>{

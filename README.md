@@ -15,7 +15,7 @@
 /* 1. Post api added : GET/POST/UPDATE/DELETE routes added -> test it using Postman -> URL: http://localhost:3000/api/posts?page=1
 /*    Use below sample data for POST query -> select RAW option and change TEXT  to JSON
 /*    {
-		"item_name":"[maggi]",
+		"item_name":"maggi",
 		"item_type":"purchased food",
 		"place_name":"R-Mart",
 		"location": "Nandan Park,Kolkata",
@@ -44,12 +44,20 @@
 /*	  /api/posts/{id}	| 	PUT  | Submit form to update post  |  		,,							| message accordingly. For ex: Raise
 /*	  /api/posts/{id}	| DELETE | Delete specific post 	   | 		,,							| alert if (error) or if (!posts)
 /*
+/*	  /api/cuisines 	| 	GET	 | Get all cuisine in homepage |  { data:[],error:err }  			| This is the cuisine route for 
+/*	  /api/cuisines 	| 	POST | Add new cuisine to Database |  { data:[],error:err }  			| dislaying or adding new cuisines
 /*
+/*	  /api/users	 	| 	GET	 | show all users to ADMIN	   |  { users:users,error:null }		| This is for ADMIN to see all users 
+/*	  /api/users	 	| 	POST | sign up new user 		   |  JWT token in response header		| fill name,email,passwd(8 char min), role(default 'USER')
+/*															   |    errorMessage if unsuccessful	|
+/*	  /api/users/auth	|   POST | login user to application   |  JWT token if login success		| provide email,passwd
+/*															   |    errorMessage if unsuccessful	|
 /*
+/* 4. Authentication module added -> signup with name, email(unique), passwd and get a JWT token in response header; login with email & passwd and receive JWT token
+/*    after successful authentication;
 /*
-/*
-/*
-/*
-/*
-/*
-/*
+/*		Next features in pipeline
+/*      -------------------------
+/*      likes -> will add a route like : /api/posts/{id}/likes 		(POST)
+/*      filter by cuisine -> route like: /api/posts?cuisine=1  		(cuisine_id)
+/*      search with filter-> route like: /api/posts/search?q={searchstring}&cuisine=1       (searchString is usergiven,cuisine=cuisine_id)

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 /* Define Post schema */
 const postSchema = new Schema({
 
-	item_name: { type:[String],	required:true },
+	item_name: { type:String,	required:true },
 
 	item_type: { type:String, required:true },
 
@@ -13,15 +13,15 @@ const postSchema = new Schema({
 
 	location: { type:String, required:true },
 
-	cuisine: {  type:[String], required:true },
+	cuisine: {  type:String, required:true, lowercase:true },
 
 	review: String,
 
 	media: [String],
 
-	price: { type:[String], required:true },
+	price: { type:String, required:true, min:0 },
 
-	rating: { type:[String], required:true },
+	rating: { type:Number, required:true, min:1, max:5 },
 
 	hashtags: [String]
 

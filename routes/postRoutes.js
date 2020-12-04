@@ -38,7 +38,7 @@ router.post("/",(req,res)=>{
 			res.json({ posts:data,error:null });
 		})
 		.catch((err)=>{			//else return custom error message
-			res.json({ posts:null,error:err });
+			res.status(400).json({ posts:null,error:err });
 		});
 });
 
@@ -125,3 +125,6 @@ module.exports = router;
 		"price":"20",
 		"hashtags":"['instantnoodles','cheapPrice']"
 } */
+
+//food-items cannot be empty array, validation required
+//parse message proporty from error object properly
