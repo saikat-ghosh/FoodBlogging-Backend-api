@@ -11,6 +11,7 @@ const router = express.Router();
 //Get method handler to display all posts on home page
 router.get("/",(req,res)=>{
 	Cuisine.find({})			//get all cuisines
+		.select('cuisine_name')
 		.then((data)=>{			//if query success, return json data
 			res.json({ data:data,error:null });
 		})

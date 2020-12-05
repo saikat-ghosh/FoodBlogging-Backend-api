@@ -5,18 +5,21 @@ const express = require('express');
 const Post = require('../models/post');
 const Cuisine = require('../models/cuisine');
 
+/* import Middlewares */
+const authorize = require('../middlewares/ownerOrAdmin');
+
 /* create a new Router instance */
 const router = express.Router();
 
 /* attach route handlers to the Router instance */
-//Get method handler to display all posts on home page
+//GET method handler to display all posts on home page
 router.get("/",(req,res)=>{
 	var postPerPage = 2;							//sets the number of post displayed per page
 													//sets the pageNumber; default is '1' if not passed from frontend
 	var pageNumber=req.query.page>0 ? req.query.page : 1;
 	Post.find({})									//get all posts
-		.skip((pageNumber - 1) * postPerPage) 		//skip posts displayed on previous pages ---\ pagination
-		.limit(postPerPage)  						//show next 10 posts on the current page ---/   logic
+		//.skip((pageNumber - 1) * postPerPage) 	//skip posts displayed on previous pages ---\ pagination
+		//.limit(postPerPage)  						//show next 10 posts on the current page ---/   logic
 		.sort('-createdAt')	 						//sort by creation time, latest on top
 		.then((data)=>{			//if query success, return json data
 			res.json({ posts:data,error:null });
@@ -26,15 +29,17 @@ router.get("/",(req,res)=>{
 		});
 });
 
-//Post method handler to add new post
+//POST method handler to add new post
 router.post("/",(req,res)=>{
 	//create a new Post object with form values passed by user
 	const post = new Post(req.body);
+	post.author._id = req.user._id;				//attach author_id & author_name from the Request object
+	post.author.name = req.user.name;
 	//save new post object into the Database
 	post.save()
 		.then((data)=>{			//if query success, check cuisine existence, then return json data
 			//call function to check if cuisine already exists; if no, then add cuisine
-			checkCuisine(req.body.cuisine ? req.body.cuisine : 'default');	//pass default value if cuisine not passed from frontend
+			//checkCuisine(req.body.cuisine ? req.body.cuisine : 'default');	//pass default value if cuisine not passed from frontend
 			res.json({ posts:data,error:null });
 		})
 		.catch((err)=>{			//else return custom error message
@@ -55,7 +60,7 @@ router.get("/create",(req,res)=>{
 							 });
 });
 
-//Get method handler for finding particular post by passing post_id
+//GET method handler for finding particular post by passing post_id
 router.get("/:id",(req,res)=>{
 	Post.findById(req.params.id)
 		.then((data)=>{			//if query success, return json data
@@ -69,11 +74,11 @@ router.get("/:id",(req,res)=>{
 
 });
 //Put method handler for updating a particular post by passing post_id
-router.put("/:id",(req,res)=>{
+router.put("/:id",authorize,(req,res)=>{
 	Post.findByIdAndUpdate(req.params.id,req.body, {new:true})
 		.then((data)=>{			//if query success, check cuisine existence, then return json data
 			//call function to check if cuisine already exists; if no, then add cuisine
-			checkCuisine(req.body.cuisine ? req.body.cuisine : 'default');	//pass default value if cuisine not passed from frontend
+			//checkCuisine(req.body.cuisine ? req.body.cuisine : 'default');	//pass default value if cuisine not passed from frontend
 			res.json({ posts:data,error:null });
 		})
 		.catch((err)=>{			//else return custom error message
@@ -81,7 +86,7 @@ router.put("/:id",(req,res)=>{
 		});
 });
 //Delete method handler for deleting a particular post by passing post_id
-router.delete("/:id",(req,res)=>{
+router.delete("/:id",authorize,(req,res)=>{
 	Post.findByIdAndDelete(req.params.id)
 		.then((data)=>{			//if query success, return json data
 			res.json({ posts:data,error:null });

@@ -8,6 +8,9 @@ const bodyParser = require('body-parser');
 const Post = require('./models/post');
 const Cuisine = require('./models/cuisine');
 
+/* import Middlewares */
+const auth = require('./middlewares/auth');
+
 /* import Routes */
 const postRoutes = require('./routes/postRoutes');
 const cuisineRoutes = require('./routes/cuisineRoutes');
@@ -41,9 +44,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(morgan('dev'));
 
 /* introduce Route middlewares to handle route requests */
+app.use("/api/users",userRoutes);
+
+//below routes needs authentication first
+app.use(auth);
 app.use("/api/posts",postRoutes);
 app.use("/api/cuisines",cuisineRoutes);					//added for testing purpose, might not be required later
-app.use("/api/users",userRoutes);
+
 
 /* index route -> redirects to posts for now, later will return the login/signup page */
 app.get("/",(req,res)=>{
@@ -54,3 +61,7 @@ app.get("/",(req,res)=>{
 app.use((req,res)=>{
 	res.status(404).json({data:null,err:'404 - Page Not Found'});
 });
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMwZjI3M2ZjZjJlNDE1ZTRiMmZhODMiLCJuYW1lIjoic2Fpa2F0OSIsImVtYWlsIjoiYWJjaCIsImlhdCI6MTYwNzIwMTMzM30.1_NVWgF_OKxMZYJd3HGUjM5EuS4ozsfya9DIClL_8PE
+//author: 5fc0f273fcf2e415e4b2fa83 | 5fc0a014b3e3912b908ba2fd
+//post: 5fcb799a92aadc146c7de71d
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmMwYTAxNGIzZTM5MTJiOTA4YmEyZmQiLCJpYXQiOjE2MDcxNjkyNTh9.mYJvIWCofYZkHYwLNfn8HCvGj-sY8cVfSI1hUYEUiuk

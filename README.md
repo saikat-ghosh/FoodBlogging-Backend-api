@@ -23,7 +23,7 @@
 		"review":"cheap price!!!.",
 		"rating":"5",
 		"price":"20",
-		"hashtags":"['instantnoodles','cheapPrice']"
+		"hashtags":"'instantnoodles','cheapPrice'"
 	  }
 /*
 /* 2. Pagination logic added -> currently showing 2 posts per page -> can be altered by setting the variable postPerPage (PostRoutes.js file, line:14)

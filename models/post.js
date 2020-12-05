@@ -23,8 +23,11 @@ const postSchema = new Schema({
 
 	rating: { type:Number, required:true, min:1, max:5 },
 
-	hashtags: [String]
+	hashtags: [String],
 
+	author: { _id: mongoose.ObjectId, name: { type:String, required:true }},
+
+	total_likes: { type:Number, default:0 } 
 }, {timestamps:true});
 
 /*Define Post model */
