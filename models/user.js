@@ -13,14 +13,14 @@ const userSchema = new Schema({
 
 	password: { type:String, required:true, minlength:8, maxlength:1024 },
 
-	role: { type:String, required:true, default:'user' }
+	isAdmin: { type:Boolean, default:'false' }
 
 }, {timestamps:true});
 
 /* Define methods under UserSchema */
 userSchema.methods.createJWTtoken = function() {
 	console.log(config.get('JWTSecretKey'));
-	const token = jwt.sign({_id: this._id, name: this.name, email: this.email},'dummykey');
+	const token = jwt.sign({_id: this._id, name: this.name, email: this.email, isAdmin: this.isAdmin },'dummykey');
 	//comment above line & uncomment below line to use secretkey set by ENV
 	//const token = jwt.sign({_id: this._id},config.get('JWTSecretKey'));
 	return token;

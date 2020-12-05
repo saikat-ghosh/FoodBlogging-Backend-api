@@ -11,7 +11,7 @@ async function hasAuthorization(req,res,next){
 	try {
 		const post = await Post.findById(req.params.id);
 		//check if the current user is admin or author of the post
-		if (req.user._id.equals(post.author._id) || req.user.role == 'admin')
+		if (req.user._id.equals(post.author._id) || req.user.isAdmin)
 			console.log('has authorization');
 		else
 			return res.status(401).send('You are not authorized to perform ths activity!');

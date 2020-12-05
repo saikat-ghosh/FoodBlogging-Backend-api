@@ -10,9 +10,10 @@ async function authenticate(req,res,next){
 		return res.status(401).send('No Authentication token found');
 	try {
 		const payload = jwt.verify(token,'dummykey');									//verify token
-		req.user = await User.findById(payload._id).select(['name','role']);			//find the user by token.id and attach to the requset object
+		req.user = await User.findById(payload._id).select(['name','isAdmin']);			//find the user by token.id and attach to the requset object
 		next();
 	}catch(err){
+		console.log(err);
 		res.status(400).send('Invalid Authentication token');
 	}
 }
