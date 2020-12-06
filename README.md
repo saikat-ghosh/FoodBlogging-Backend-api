@@ -52,12 +52,11 @@
 /*															   |    errorMessage if unsuccessful	|
 /*	  /api/users/auth	|   POST | login user to application   |  JWT token if login success		| provide email,passwd
 /*															   |    errorMessage if unsuccessful	|
+/*	  /api/favorites 	| 	GET	 | show all favorites of user  |  favorites array					| This is user-specific route; shows favorites of current user only
+/*	  /api/favorites/{postId} | POST |add item to favorites	   |  response message 				    | no need to pass parms in body, only pass postId as route parm
 /*
-/* 4. Authentication module added -> signup with name, email(unique), passwd and get a JWT token in response header; login with email & passwd and receive JWT token
+/* 4. Authentication module added -> signup with name, email(unique), password and get a JWT token in response header; login with email & passwd and receive JWT token
 /*    after successful authentication;
 /*
-/*		Next features in pipeline
-/*      -------------------------
-/*      likes -> will add a route like : /api/posts/{id}/likes 		(POST)
-/*      filter by cuisine -> route like: /api/posts?cuisine=1  		(cuisine_id)
-/*      search with filter-> route like: /api/posts/search?q={searchstring}&cuisine=1       (searchString is usergiven,cuisine=cuisine_id)
+/* 5. User favorite module added -> when a user likes a post, the post automatically gets added to the user's favorites list; also the like count of the post increases
+/*

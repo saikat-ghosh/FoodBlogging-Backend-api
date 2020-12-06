@@ -7,11 +7,11 @@ const postSchema = new Schema({
 
 	item_name: { type:String,	required:true },
 
-	item_type: { type:String, required:true },
+	item_type: { type:String, default:'Purchased food' },
 
 	place_name: { type:String, required:true },
 
-	location: { type:String, required:true },
+	location: { type:String },
 
 	cuisine: {  type:String, required:true, lowercase:true },
 
@@ -27,7 +27,10 @@ const postSchema = new Schema({
 
 	author: { _id: mongoose.ObjectId, name: { type:String, required:true }},
 
-	total_likes: { type:Number, default:0 } 
+	total_likes: { type:Number, default:0 },
+
+	isDeleted: { type:Boolean, default:'false' }
+	
 }, {timestamps:true});
 
 /*Define Post model */

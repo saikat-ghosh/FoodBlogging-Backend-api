@@ -14,13 +14,9 @@ const router = express.Router();
 /* attach route handlers to the Router instance */
 //GET method handler to display all posts on home page
 router.get("/",(req,res)=>{
-	var postPerPage = 2;							//sets the number of post displayed per page
-													//sets the pageNumber; default is '1' if not passed from frontend
-	var pageNumber=req.query.page>0 ? req.query.page : 1;
-	Post.find({})									//get all posts
-		//.skip((pageNumber - 1) * postPerPage) 	//skip posts displayed on previous pages ---\ pagination
-		//.limit(postPerPage)  						//show next 10 posts on the current page ---/   logic
-		.sort('-createdAt')	 						//sort by creation time, latest on top
+
+	Post.find({ 'isDeleted' : false })
+		.sort('-createdAt')	 	//sort by creation time, latest on top
 		.then((data)=>{			//if query success, return json data
 			res.json({ posts:data,error:null });
 		})
@@ -86,15 +82,21 @@ router.put("/:id",authorize,(req,res)=>{
 		});
 });
 //Delete method handler for deleting a particular post by passing post_id
-router.delete("/:id",authorize,(req,res)=>{
-	Post.findByIdAndDelete(req.params.id)
-		.then((data)=>{			//if query success, return json data
-			res.json({ posts:data,error:null });
-		})
-		.catch((err)=>{			//else return custom error message
-			res.json({ posts:null,error:err });
-		});
-
+router.delete("/:id",authorize,async (req,res)=>{ 
+	try{
+		//retrieve post from Database
+		var post = await Post.findById(req.params.id);
+		//if post not found, return response
+		if(!post)
+			return res.status(400).send('No such post found.');
+		//else turn the softDelete flag up for the post
+		post.isDeleted = true;
+		await post.save();		 //save the post
+		res.send('Post deleted.');
+	}
+	catch(err){					 //else throw error
+		throw err;
+	}
 });
 
 //custom function to check cuisine existence, recieves cuisine name either default or passed from frontend
@@ -130,6 +132,3 @@ module.exports = router;
 		"price":"20",
 		"hashtags":"['instantnoodles','cheapPrice']"
 } */
-
-//food-items cannot be empty array, validation required
-//parse message proporty from error object properly
