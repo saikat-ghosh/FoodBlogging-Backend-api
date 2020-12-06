@@ -6,13 +6,8 @@ const Schema = mongoose.Schema;
 const favoriteSchema = new Schema({
 
 	user: {  _id: mongoose.ObjectId, name: { type:String, required:true }},
-
-	post: {  _id: mongoose.ObjectId,
-			 item_name: { type:String, required:true },
-			 place_name: { type:String, required:true },
-			 cuisine: {  type:String, required:true, lowercase:true },
-			 media: [String],
-			} 
+	post: { type:mongoose.ObjectId, ref:'Post'}
+	
 }, {timestamps:true});
 
 /*Define Favorite model */

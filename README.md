@@ -37,7 +37,7 @@
 /*    -----------------------------------------
 /*	  		Route URL	| Method | 		  Functionality 	   | 	Data Format from backend	    | Comment
 /*    --------------------------------------------------------------------------------------------------------------------
-/*	  /api/posts?page=1	| 	GET	 | Fetch all posts in homepage |  { posts:data,error:err }  		| Each response is a JSON object with
+/*	  /api/posts 		| 	GET	 | Fetch all posts in homepage |  { posts:data,error:err }  		| Each response is a JSON object with
 /*	  /api/posts/create	|   GET  | Open form to add new post   |  { allCuisines:data,error:null }	| key-value pair. In frontend, check
 /*	  /api/posts 		|   POST | Submit form to add new post |  { posts:data,error:err } 			| for each key & check if it is null
 /*	  /api/posts/{id}	| 	GET  | Display particular post 	   | 		,,							| or has value. Display appropriate

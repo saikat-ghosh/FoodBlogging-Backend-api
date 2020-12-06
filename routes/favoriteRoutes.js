@@ -15,7 +15,8 @@ const router = express.Router();
 router.get("/",async (req,res)=>{
 	try
 	{	//get all favorite items
-		var favorites = await Favorite.find({ 'user._id': req.user._id }).select('post');
+		console.log(req.user.name);
+		var favorites = await Favorite.find({ 'user._id': req.user._id }).populate('post').select(['post','-_id']);
 		res.json({ favorites: favorites });
 	}
 	catch(err){		//else throw error
@@ -32,17 +33,12 @@ router.post('/:postId',async (req,res)=>{
 		if(!post)
 			return res.status(400).send('No such post found.');
 		//if post already added to favorites, return response
-		var favorite = await Favorite.find({ 'user._id': req.user._id, 'post._id': post._id });
+		var favorite = await Favorite.find({ 'user._id': req.user._id, 'post': post._id });
 		if(favorite.length)
 			return res.send('Post already added to favorites');
 		//else add a new entry to the Favorite collection
 		favorite = new Favorite({
-			post: {
-				_id: post._id,
-				item_name: post.item_name,
-				place_name: post.place_name,
-				cuisine: post.cuisine,
-			},
+			post: post._id,
 			user: {
 				_id: req.user._id,
 				name: req.user.name

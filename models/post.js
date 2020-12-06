@@ -13,7 +13,7 @@ const postSchema = new Schema({
 
 	location: { type:String },
 
-	cuisine: {  type:String, required:true, lowercase:true },
+	cuisine: {  type:String, required:true },
 
 	review: String,
 
@@ -30,7 +30,7 @@ const postSchema = new Schema({
 	total_likes: { type:Number, default:0 },
 
 	isDeleted: { type:Boolean, default:'false' }
-	
+
 }, {timestamps:true});
 
 /*Define Post model */
