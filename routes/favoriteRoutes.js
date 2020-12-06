@@ -15,7 +15,6 @@ const router = express.Router();
 router.get("/",async (req,res)=>{
 	try
 	{	//get all favorite items
-		console.log(req.user.name);
 		var favorites = await Favorite.find({ 'user._id': req.user._id }).populate('post').select(['post','-_id']);
 		res.json({ favorites: favorites });
 	}

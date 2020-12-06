@@ -17,7 +17,7 @@ const postSchema = new Schema({
 
 	review: String,
 
-	media: [String],
+	media: { type:String, default:'demo' },
 
 	price: { type:String, required:true, min:0 },
 
