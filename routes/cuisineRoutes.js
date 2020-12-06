@@ -8,10 +8,10 @@ const Cuisine = require('../models/cuisine');
 const router = express.Router();
 
 /* attach route handlers to the Router instance */
-//Get method handler to display all posts on home page
+//GET method handler to display all posts on home page
 router.get("/",(req,res)=>{
 	Cuisine.find({})			//get all cuisines
-		.select('cuisine_name')
+		.select('name')
 		.then((data)=>{			//if query success, return json data
 			res.json({ data:data,error:null });
 		})
@@ -20,11 +20,11 @@ router.get("/",(req,res)=>{
 		});
 });
 
-//Post method handler to add new post
+//POST method handler to add new post
 router.post("/",(req,res)=>{
-	//create a new Post object with form values passed by user
+	//create a new Cuisine object with form values passed by user
 	const cuisine = new Cuisine(req.body);
-	//save new post object into the Database
+	//save new cuisine object into the Database
 	cuisine.save()
 		.then((data)=>{			//if query success, return json data
 			res.json({ data:data,error:null });

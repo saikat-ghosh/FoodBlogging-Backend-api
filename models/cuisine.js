@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 /* Define Cuisine schema */
 const cuisineSchema = new Schema({
-	cuisine_name: { type:String,	required:true,	lowercase:true },
+	name: { type:String,	required:true,	lowercase:true },
 	
 }, {timestamps:true});
 
