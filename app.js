@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 /* import Models */
 const Post = require('./models/post');
@@ -35,6 +36,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true,useUnifiedTopology:true})
 
 /* make the public folder accessible to contain external files */
 app.use(express.static('public'));
+app.use(cors());
 
 /* pass form data to the request object */
 app.use(bodyParser.json());
